@@ -1,0 +1,36 @@
+# CODE FUNCTION: Implementation of the Decision Tree Algorithm - Artifical Intelligence
+# STUDY AREA: Student's Grade Prediction. Artificial Intelligence Applied to Educational
+# ARTIFICIAL INTELLIGENCE AREA: Machine Learning
+# LANGUAGE: Python
+# OBJECT: Pragmatic code segment of Artificial Intelligence. A research approach of the IA 
+# AUTHOR: Héctor Alonso-Misol Gerlache
+# DATE: Dec 2020
+
+def decisiontree (df, features, predictora):
+    X = pd.DataFrame(df[features].copy())
+    y = df[predictora].copy()
+    
+    # Distribution of the train and test data
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size = 0.2, random_state=1976)
+    print (X_train.shape[0] == y_train.shape[0])
+    
+    # Classifier
+    model = DecisionTreeClassifier (criterion = 'entropy',
+                                    min_samples_split = 20,
+                                    min_samples_leaf = 4)
+                                    
+    # Train the data and predict
+    model.fit (X_train, y_train)
+    predictions = model.predict(X_test)
+    
+    # Conffusion matrix
+    print (confusion_matrix(y_test,predictions))
+    print ('Score Arbol Clasificacion: ', 100 * (model.score (X_test, y_test)))
+    print('Cantidad de errores de clasificación sobre un total de {0} casos: {1}'
+      .format(y_test.shape[0],(y_test != predictions).sum()))
+    print("Efectividad del algoritmo: {0: .2f}"
+      .format(1 - (y_test != predictions).sum()/y_test.shape[0]))
+      
+      
+# Call the Decision Tree function      
+decisiontree (df_final_calification, list_features, 'FINAL_CALIFICATION')
